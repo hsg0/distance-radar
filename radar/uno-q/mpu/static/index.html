@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radar</title>
+  <link rel="stylesheet" href="/radar.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="kicker">Arduino Uno Q</p>
+      <h1>Radar</h1>
+    </div>
+    <p id="link" class="link down">MCU offline</p>
+  </header>
+
+  <main>
+    <section class="stage">
+      <figure class="panel scope-panel">
+        <figcaption>
+          <span>Scope</span>
+          <span class="caption-note">+90° left · 0° center · −90° right</span>
+        </figcaption>
+        <div class="canvas-wrap">
+          <canvas id="scope" aria-label="Radar scope"></canvas>
+          <div class="readout">
+            <span id="read-angle">—°</span>
+            <span id="read-dist">— ft</span>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="panel map-panel">
+        <figcaption>
+          <span>Diagram</span>
+          <span class="caption-note">each label is feet from the sensor</span>
+        </figcaption>
+        <div class="canvas-wrap map-wrap">
+          <canvas id="map" aria-label="Mapped diagram of detections"></canvas>
+        </div>
+      </figure>
+    </section>
+
+    <aside class="controls">
+      <section class="panel" id="servo-panel">
+        <header class="panel-head">
+          <h2>Servo</h2>
+          <p id="servo-summary">0° center 1300 µs</p>
+        </header>
+        <div class="row">
+          <button type="button" id="servo-cal" class="mode">Calibrate</button>
+          <button type="button" id="servo-run" class="mode" disabled>Run</button>
+        </div>
+        <div id="servo-tools" class="tools hidden">
+          <p class="meter">Pulse <strong id="pulse">—</strong> µs</p>
+          <div class="row wrap">
+            <button type="button" data-key="A">−100</button>
+            <button type="button" data-key="a">−20</button>
+            <button type="button" data-key="c">Center</button>
+            <button type="button" data-key="d">+20</button>
+            <button type="button" data-key="D">+100</button>
+          </div>
+          <div class="row">
+            <button type="button" data-key="z">Mark 0°</button>
+            <button type="button" data-key="t">Test sweep</button>
+          </div>
+          <p class="hint">Stop one nudge short of each mechanical stop.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="luna-panel">
+        <header class="panel-head">
+          <h2>TF-Luna</h2>
+          <p id="luna-summary">Using the sensor reading.</p>
+        </header>
+        <div class="row">
+          <button type="button" id="luna-cal" class="mode">Calibrate</button>
+          <button type="button" id="luna-run" class="mode">Run</button>
+        </div>
+        <div id="luna-tools" class="tools hidden">
+          <p class="meter">Sensor sees <strong id="luna-live">—</strong> ft</p>
+          <p class="hint">That number is the distance in feet. The page uses the sensor reading directly.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="buzzer-panel">
+        <header class="panel-head">
+          <h2>Buzzer</h2>
+          <p id="buzzer-summary">1 ft is 100 Hz. Each half foot adds 400 Hz, up to 5000 Hz.</p>
+        </header>
+        <div class="row">
+          <button type="button" id="buzzer-cal" class="mode">Calibrate</button>
+          <button type="button" id="buzzer-run" class="mode">Run</button>
+        </div>
+        <div id="buzzer-tools" class="tools hidden">
+          <p class="meter">Pitch <strong id="buzz-hz">2000</strong> Hz</p>
+          <div class="row wrap">
+            <button type="button" id="buzz-down-c">−400</button>
+            <button type="button" id="buzz-down">−50</button>
+            <button type="button" id="buzz-beep">Beep</button>
+            <button type="button" id="buzz-up">+50</button>
+            <button type="button" id="buzz-up-c">+400</button>
+          </div>
+          <div class="row">
+            <button type="button" id="buzz-hold">Hold high</button>
+            <button type="button" id="buzz-mark">Use this pitch</button>
+          </div>
+          <p class="hint">The tone updates every 0.2 s from the latest detection. 1 ft is 100 Hz, 1.5 ft is 500 Hz, 2 ft is 900 Hz, and 2.5 ft is 1300 Hz. The tone stays at 5000 Hz past about 7 ft. Nothing in view keeps the buzzer quiet.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header class="panel-head">
+          <h2>Mapping</h2>
+          <p>Sweep the servo and plot every return.</p>
+        </header>
+        <div class="row">
+          <button type="button" id="map-run" class="primary" disabled>Start mapping</button>
+          <button type="button" id="map-clear">Clear</button>
+        </div>
+        <ol id="contacts" class="contacts"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <footer id="status">Open this page, then flash the radar sketch if the link stays quiet.</footer>
+  <script src="/radar.js"></script>
+</body>
+</html>
