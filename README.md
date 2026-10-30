@@ -2,9 +2,9 @@
 
 A small scanning radar built on an Arduino Uno Q. A hobby servo sweeps a Benewake TF-Luna lidar across 180 degrees. A web page draws each return, and a buzzer plays a pitch that follows how far away the return is.
 
-![TF-Luna on the servo, mounted on the project box](docs/radar-head.jpg)
+![TF-Luna on the A0090 servo, sweeping from the project box](docs/radar-build.jpg)
 
-The sensor in the photo is the TF-Luna, taped to a cardboard horn on an A0090 servo. The servo sits on top of the project box. Power and signal wires drop into the box to the Uno Q.
+The drawing shows the build: a TF-Luna taped to a small cardboard horn on an A0090 servo. The servo sits on top of the project box and sweeps 180 degrees. Power and signal wires drop into the box to the Uno Q.
 
 ## What it does
 
